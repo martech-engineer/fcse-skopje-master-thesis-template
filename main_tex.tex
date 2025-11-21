@@ -1,0 +1,540 @@
+% === ЗАДОЛЖИТЕЛНО ДА СЕ ПРОЧИТА ===
+%  Порамнувањето и оддалеченоста од лево и десно НЕ е иста намерно, но доаѓа таман за укоричени тези со тврди корици :) 
+
+
+% Thesis Template with Macedonian Cyrillic Support (XeLaTeX)
+\documentclass[thesis]{csthes}
+\providecommand{\mainmatter}{}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%              PACKAGES                     %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\usepackage{polyglossia}
+\setmainlanguage{macedonian}
+\setotherlanguage{english}
+\usepackage{tocloft} 
+% Прилагодување за простор во Листа на слики и табели
+% Ја зголемуваме ширината резервирана за броевите на сликите
+% за да има доволно простор за двоцифрени броеви (на пр. "1.10").
+\setlength{\cftfignumwidth}{2.5em} 
+\setlength{\cfttabnumwidth}{2.5em}
+\setlength{\cftchapnumwidth}{3em}
+\setlength{\cftsecnumwidth}{3em}
+\setlength{\cftsubsecnumwidth}{3.5em}
+
+%-------------------------------------------------------------------
+% REMOVE THE LINE OF DASHES HERE, or ensure it is a clean comment:
+
+% Mathematics
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{array}
+
+% Graphics and Layout
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{tikz}
+\usepackage{makecell}
+\usepackage{geometry}
+\usepackage{ragged2e}
+
+% Colors
+\usepackage{xcolor}
+ 
+% Code Listings
+\usepackage{listings}
+
+% Hyperlinks (load last)
+\usepackage{url}
+\usepackage{xurl}  % Better URL breaking
+% Compact headings and list spacing
+\usepackage{titlesec}
+\titlespacing*{\section}{0pt}{2ex plus .3ex minus .2ex}{1ex plus .2ex}
+\titlespacing*{\subsection}{0pt}{1.5ex plus .2ex minus .2ex}{0.7ex plus .2ex}
+\titlespacing*{\subsubsection}{0pt}{1.2ex plus .2ex minus .2ex}{0.5ex plus .2ex}
+
+\usepackage{enumitem}
+\setlist{nosep} % no extra space before/after itemize/enumerate
+
+\usepackage{hyperref}
+% Headers and Footers
+\usepackage{fancyhdr}
+
+% Tables (load last)
+\usepackage{booktabs}           % For \toprule, \midrule, \bottomrule
+\usepackage{longtable}
+\usepackage{siunitx}            % For S column type and number alignment
+\usepackage{multirow}           % For \multirow command
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%              COLOR DEFINITIONS            %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\definecolor{signatureblue}{RGB}{30, 58, 138}
+\definecolor{darkblue}{RGB}{13, 30, 66}
+\definecolor{classicsilver}{RGB}{187, 198, 204} 
+\definecolor{lightclassicsilver}{RGB}{220, 225, 228}
+\definecolor{autocolor}{RGB}{0, 100, 150} 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%              FONT DEFINITIONS             %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Cyrillic monospace font
+\newfontfamily\cyrillicfonttt{DejaVu Sans Mono}
+
+% Title font (Skola Sans Pro)
+\newfontfamily\titlefont[
+    Path = fonts/SkolaSansPro/static/,
+    Extension=.otf,
+    UprightFont = SkolaSans-Medium,
+    ItalicFont = SkolaSans-Regular,
+    Scale=1.1
+]{SkolaSans}
+
+% Lora font family
+\newfontfamily\lorafont[
+    Path=fonts/Lora/static/,
+    Extension=.ttf,
+    UprightFont=*-Regular,
+    ItalicFont=*-Italic,
+    BoldFont=*-Bold,
+    BoldItalicFont=*-BoldItalic
+]{Lora}
+
+% SkolaSans Pro normal text font family
+\newfontfamily\skolafont[
+    Path = fonts/SkolaSansPro/static/,
+    Extension = .otf,
+    UprightFont = SkolaSans-Regular,
+    ItalicFont = SkolaSans-RegularItalic,      % Matches the file in your screenshot
+    BoldFont = SkolaSans-Bold,
+    BoldItalicFont = SkolaSans-BoldItalic
+]{SkolaSans}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%              CUSTOM COMMANDS              %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Lora italic text command
+\newcommand{\loraitaliс}[1]{{\lorafont\itshape #1}}
+
+% Calligraphic O command
+\newcommand{\callOMath}{\ensuremath{\scalebox{1.2}{\mathcal{O}}}}
+
+% Small caps behavior for Cyrillic
+\renewcommand{\textsc}[1]{\MakeUppercase{#1}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%              LAYOUT SETTINGS              %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Float placement parameters
+\renewcommand{\topfraction}{0.9}
+\renewcommand{\textfraction}{0.1}
+\renewcommand{\floatpagefraction}{0.8}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%              THESIS METADATA              %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\title{{Некој наслов\par}}
+\author{Име Презиме \matr{бр. индекс}}
+\degree{Програм: Некој програм}
+\supervisor{проф. д-р Име Презиме}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%             CUSTOM COVER PAGE             %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newcommand{\darkcoverpage}{%
+    \newgeometry{top=2cm, bottom=2cm, left=2cm, right=2cm} % Temporarily reduce margins
+    \clearpage
+    \thispagestyle{empty}
+    
+    % --- BACKGROUND (TikZ) ---
+    \begin{tikzpicture}[remember picture,overlay]
+        \fill[darkblue] (current page.north west) rectangle (current page.south east);
+        
+        % Decorative lines
+        \draw[classicsilver, line width=2pt] 
+            ([xshift=2cm,yshift=-2cm]current page.north west) -- 
+            ([xshift=-2cm,yshift=-2cm]current page.north east);
+        \draw[classicsilver, line width=2pt] 
+            ([xshift=2cm,yshift=2cm]current page.south west) -- 
+            ([xshift=-2cm,yshift=2cm]current page.south east);
+        
+        % Corner decorations
+        \draw[lightclassicsilver, line width=1pt] 
+            ([xshift=1.5cm,yshift=-1.5cm]current page.north west) -- 
+            ([xshift=3cm,yshift=-1.5cm]current page.north west) -- 
+            ([xshift=3cm,yshift=-3cm]current page.north west);
+        \draw[lightclassicsilver, line width=1pt] 
+            ([xshift=-1.5cm,yshift=-1.5cm]current page.north east) -- 
+            ([xshift=-3cm,yshift=-1.5cm]current page.north east) -- 
+            ([xshift=-3cm,yshift=-3cm]current page.north east);
+    \end{tikzpicture}
+
+    % --- CONTENT ---
+    \color{classicsilver}
+    \centering % Use centering instead of 'center' env to save vertical space
+    
+    \vspace*{1cm} % Top padding
+
+    % University logos
+    \IfFileExists{images/logo-ukim-grey.png}{%
+        \includegraphics[width=1.8cm]{images/logo-ukim-grey.png}%
+    }{%
+        \rule{1.8cm}{1.8cm}%
+    }%
+    \hspace{0.5cm}
+    \IfFileExists{images/logo-finki-grey-2.png}{%
+        \includegraphics[width=2.5cm]{images/logo-finki-grey-2.png}%
+    }{%
+        \rule{2.5cm}{2.5cm}%
+    }
+    
+    \vspace{0.5cm}
+
+    % University name
+    {\titlefont\Large УКИМ, СКОПЈЕ\par}
+    \vspace{0.2cm}
+    {\titlefont\Large Факултет за информатички науки \\
+    и компјутерско инженерство (ФИНКИ)\par}
+    
+    \vfill % Flexible space 1
+
+    % Thesis type
+    {\titlefont\LARGE\textbf{МАГИСТЕРСКИ ТРУД}\par}
+    
+    \vfill % Flexible space 2
+
+    % Title 
+    {\titlefont\LARGE\textbf{%
+    Некој наслов \\
+    наслов дел 1 \\ 
+    наслов дел 2 \\
+    наслов дел 3, \\ 
+    наслов дел 4
+    }\par}
+    
+    \vfill % Flexible space 3
+    
+    % Author and supervisor details
+    \noindent\makebox[\linewidth]{%
+    \begin{tabular}{@{}p{0.46\textwidth}@{\hspace{0.04\textwidth}}p{0.46\textwidth}@{}}
+        \raggedright
+        {\titlefont\Large\textbf{Кандидат:}}\\
+        {\titlefont\large Име Презиме, бр. индекс}\\[0.5cm] 
+        {\titlefont\Large\textbf{Програм:}}\\
+        {\titlefont\large Некој програм}
+        &
+        \raggedleft
+        {\titlefont\Large\textbf{Ментор:}}\\
+        {\titlefont\large проф. д-р Име Презиме}
+    \end{tabular}%
+    }
+
+    \vspace*{2cm} % Bottom padding
+    
+    \color{black}
+    \restoregeometry % Restore normal margins for the rest of the thesis
+    \clearpage
+}
+\thesistype{Магистерски труд}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%              DOCUMENT BEGIN               %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\setcounter{secnumdepth}{1}
+\setcounter{tocdepth}{3}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%            LAYOUT SETTINGS                %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Float placement parameters
+\renewcommand{\topfraction}{0.9}
+\renewcommand{\textfraction}{0.1}
+\renewcommand{\floatpagefraction}{0.8}
+
+\onehalfspacing % Set main text to 1.5 line spacing (1.5x)
+
+% Redefine footnote environment to use single spacing and 10pt font.
+\makeatletter
+\renewcommand{\@footnotetext}[1]{%
+    \insertfootnotetext{\footnotesize\singlespacing #1}%
+}
+\makeatother
+
+\begin{document}
+% Applies Left Alignment (Ragged Right) while maintaining hyphenation
+\RaggedRight 
+
+% Optional: If you want to remove paragraph indentation (common with left-aligned text)
+% un-comment the line below:
+% \setlength{\parindent}{0pt}
+
+% Cover pages
+\darkcoverpage
+\maketitle
+
+% Committee page
+\newpage
+\thispagestyle{empty} % Optional: removes page number from this page
+
+\begin{flushleft} % Forces strict left alignment
+    
+    % Heading
+    {\huge\textbf{Комисија}}\\[1.5cm]
+
+    % Mentor
+    {\Large \textbf{Ментор:}}\\
+    {\Large проф. д-р Име Презиме, ФИНКИ}\\[1cm]
+
+    % Members
+    {\Large \textbf{Членови:}}\\[0.5cm]
+    
+    {\Large проф. д-р Име Презиме, ФИНКИ (претседател)}\\[0.5cm]
+    {\Large проф. д-р Име Презиме, ФИНКИ (член)}
+
+\end{flushleft}
+
+% Pushes the date to the bottom of the page automatically
+\vspace*{\fill} 
+
+\begin{center}
+    {\large Скопје, 2025}
+\end{center}
+
+% Declaration of authorship
+\newpage
+\begin{center}
+    \Large\textbf{Декларација за авторство}
+\end{center}
+\vspace{1em}
+
+\begin{minipage}{\textwidth}
+    \justify
+    Изјавувам дека оваа магистерска теза ја изработив самостојно, без користење на други извори и помагала освен наведените Gemini, Claude и Perplexity за иницијално истражување, критична асистенција при кодирање на прототипот и визуелизации. Исто така, потврдувам дека дигиталната верзија е идентична со печатената во содржина и форма и прифаќам да биде подложена на софтвер за проверка на плагијат.
+\end{minipage}
+
+\vspace{5em}
+% Signature
+\begin{tabular}{@{}l@{}}
+    Скопје, \today 
+\end{tabular}
+\hspace{\fill}
+
+\begin{tabular}{@{}c@{}}
+    % OPEN brace start
+    {\hspace{-2em}\color{signatureblue}\itshape\Large
+    \vspace{-0.7em}
+    \skolafont Име Презиме}
+    \\[1ex]
+    \hspace{0.2em}\rule[0.3em]{11em}{0.5pt}
+\end{tabular}\hspace{\fill}
+
+% Quote page
+\newpage
+\thispagestyle{blank}
+\vspace*{\fill}
+\begin{center}
+    {\titlefont\textit{{"Некој цитат,\\
+        Некој цитат,\\
+        Некој цитат,\\
+        Некој цитат."}}\\
+        \normalsize — Некој автор, институција асоцирана со авторот
+    }
+\end{center}
+\vspace*{\fill}
+
+% Dedication
+\newpage
+\thispagestyle{empty}
+\vspace*{3cm}
+\begin{center}
+    {\huge\textbf{Посвета}}
+\end{center}
+
+\begin{center}
+    \vspace*{1cm}
+    \begin{minipage}{0.8\textwidth}
+        \centering
+        Lorem ipsum dolor sit amet,\\
+        consectetur adipiscing elit,\\
+        sed do eiusmod tempor incididunt\\
+        ut labore et dolore magna aliqua.\\
+        Ut enim ad minim veniam, \\
+            quis nostrud exercitation\\
+        ullamco laboris nisi ut aliquip \\ 
+            ex ea commodo consequat.\\
+        Duis aute irure dolor in reprehenderit,\\
+        voluptate velit esse cillum dolore,\\
+        eu fugiat nulla pariatur.\\
+        Excepteur sint occaecat cupidatat non proident.
+    \end{minipage}
+\end{center}
+
+
+% Acknowledgments
+\newpage
+{\Huge\textbf{Благодарност}}
+\vspace{1.5cm}
+
+\RaggedRight % <--- Ensures this text specifically is Left Aligned
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non urna ac neque aliquet interdum. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Integer vel lorem eu lectus varius aliquet. Suspendisse potenti. Curabitur sit amet risus vitae lacus finibus placerat. Phasellus quis purus vitae nisl sodales cursus. Aenean interdum nunc id orci condimentum, sit amet egestas neque fringilla. Integer sollicitudin massa vel orci dignissim, vitae rutrum justo rhoncus.
+
+Ut consequat, ligula a pretium auctor, dui libero viverra felis, vel gravida justo ex ac nisl. Donec sit amet lorem et mi convallis porttitor. Vivamus non lacus eget est bibendum dictum. Integer id lorem nec ipsum tempor volutpat. Sed facilisis, dui ac molestie ultricies, nibh ipsum faucibus turpis, eu laoreet nisl erat in magna. Suspendisse pulvinar, risus eu tincidunt consequat, lectus risus imperdiet lorem, vitae dictum nibh risus ac sem.
+
+
+% Abstract
+\newpage
+
+% Include chapters
+% \input{chapters/preface}
+\newpage
+
+\begin{abstract}
+\noindent\textbf{Вовед:} Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+
+\vspace{\baselineskip}
+\noindent\textbf{Методи:} Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+
+\vspace{\baselineskip}
+\noindent\textbf{Резултати:} Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.
+
+\vspace{\baselineskip}
+\noindent\textbf{Заклучок:} Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit.
+\end{abstract}
+
+\renewcommand{\abstractname}{Abstract}
+\begin{abstract}
+\noindent\textbf{Background:} Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+
+\vspace{\baselineskip}
+\noindent\textbf{Methods:} Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+
+\vspace{\baselineskip}
+\noindent\textbf{Results:} Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.
+
+\vspace{\baselineskip}
+\noindent\textbf{Conclusion:} Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit.
+\end{abstract}
+
+% Abbreviations
+\newpage
+\thispagestyle{blank}
+\section*{Акроними}
+\label{sec:acronyms}
+\addcontentsline{toc}{section}{Акроними}
+
+\begingroup
+\setlength{\parskip}{0pt}%
+\renewcommand{\arraystretch}{1.15}%
+\setlength{\tabcolsep}{6pt}%
+
+\begin{longtable}{p{0.24\linewidth} >{\raggedright\arraybackslash}p{0.72\linewidth}}
+\toprule
+\textbf{Кратенка} & \textbf{Опис} \\
+\midrule
+\endfirsthead
+\toprule
+\textbf{Кратенка} & \textbf{Опис} \\
+\midrule
+\endhead
+\midrule
+\multicolumn{2}{r}{\small продолжува на следната страница} \\
+\midrule
+\endfoot
+\bottomrule
+\endlastfoot
+
+БП & Бази на Податоци \\
+ВИ & Вештачка Интелигенција \\
+ГВИ & Генеративна Вештачка Интелигенција \\
+ГЈМ & Големи Јазични Модели \\
+САД & Соединети Американски Држави \\
+СВ & Семантички Веб \\
+ABC & Anchors, Body, Clicks \\
+API & Application Programming Interface \\
+BA & Barabási–Albert model \\
+BFS & Breadth First Search \\
+CMS & Content Management System \\
+CTR & Click Through Rate \\
+DFS & Depth First Search \\
+EEAT & Experience, Expertise, Authority, Trust \\
+ELPH & Efficient Link Prediction with Hashing \\
+ER & Entity Relation model \\
+GCN & Graph Convolutional Network \\
+GNN & Graph Neural Network \\
+GraphSAGE & Graph Sample and Aggregation \\
+HTML & HyperText Markup Language \\
+HTTP & HyperText Transfer Protocol \\
+IE & Information Extraction \\
+IR & Information Retrieval \\
+JSON & JavaScript Object Notation \\
+LoCo & Long Context Benchmark \\
+ML & Machine Learning \\
+MTEB & Massive Text Embedding Benchmark \\
+NER & Named Entity Recognition \\
+NLP & Natural Language Processing \\
+NP-hard & Nondeterministic Polynomial Time \\
+OWL & Web Ontology Language \\
+PR & PageRank \\
+RDF & Resource Description Framework \\
+SEO & Search Engine Optimization \\
+seovoc & SEOntology nickname \\
+SERP & Search Engine Results Page \\
+SKOS & Simple Knowledge Organisation Systems \\
+SMX Advanced & Search Marketing eXpo \\
+SPARQL & SPARQL Protocol and RDF Query Language \\
+SPO & Subject Predicate Object \\
+SQL & Structured Query Language \\
+TREC & Text REtrieval Conference \\
+URL & Uniform Resource Locator \\
+WWW & World Wide Web \\
+XML & eXtensible Markup Language \\
+\end{longtable}
+\par
+\endgroup
+
+\newpage
+
+% Table of contents
+\begingroup
+    \let\cleardoublepage\clearpage
+    \tableofcontents
+    \listoftables
+    \listoffigures
+\endgroup
+
+% Main content
+\mainmatter
+
+% Footer configuration
+\pagestyle{fancy}
+\fancyhf{} % Clear all header and footer fields
+\fancyfoot[L]{\footnotesize И. Презиме}
+\fancyfoot[R]{\footnotesize Магистерски труд}
+\fancyfoot[C]{\thepage} % Page number in center
+\renewcommand{\headrulewidth}{0pt} % No header line
+\renewcommand{\footrulewidth}{0.4pt} % Optional: thin line above footer
+
+\input{chapters/lorem_ipsum_chapter}
+% \input{chapters/second_chapter}
+% \input{chapters/third_chapter}
+% \input{chapters/fourth_chapter}
+% \input{chapters/fifth_chapter}
+% \input{chapters/sixth_chapter}
+% \input{chapters/seventh_chapter}
+
+% Bibliography
+\bibliography{mybib}
+
+\IfFileExists{mybib.bib}{}{%
+    \begin{thebibliography}{9}
+        \bibitem{placeholder} Placeholder reference to avoid empty bibliography warning.
+    \end{thebibliography}
+}
+
+\end{document}

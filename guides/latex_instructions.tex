@@ -1,0 +1,247 @@
+\documentclass[a4paper,11pt]{article}
+
+% Packages for functionality described in the guidelines
+\usepackage{fontspec}           % Required for XeLaTeX font handling
+\usepackage{graphicx}           % For including images
+\usepackage{booktabs}           % For professional tables (\toprule, \midrule, \bottomrule)
+\usepackage{amsmath}            % For advanced math and equations
+\usepackage{amssymb}            % REQUIRED for \square symbol
+\usepackage{hyperref}           % For hyperlinks and \autoref
+\usepackage[noabbrev]{cleveref} % For intelligent referencing (\cref)
+\usepackage{listings}           % For code listings
+\usepackage{xcolor}             % For coloring code listings
+\usepackage{geometry}           % For margin settings
+\usepackage{enumitem}           % For customized lists
+
+% Geometry settings
+\geometry{margin=2.5cm}
+
+% Code listing style
+\lstset{
+    basicstyle=\ttfamily\small,
+    breaklines=true,
+    frame=single,
+    backgroundcolor=\color{gray!10},
+    keywordstyle=\color{blue},
+    commentstyle=\color{green!60!black},
+    stringstyle=\color{purple},
+    showstringspaces=false,
+    language=[LaTeX]TeX
+}
+
+% Title Information
+\title{\textbf{Quality Guidelines for References in LaTeX Overleaf}}
+\author{}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\section{General Reference Principles}
+
+\subsection{Label Naming Conventions}
+Use descriptive, consistent prefixes to maintain clarity and organization:
+\begin{itemize}
+    \item \texttt{fig:} for figures
+    \item \texttt{tab:} for tables
+    \item \texttt{eq:} for equations
+    \item \texttt{sec:} for sections
+    \item \texttt{ch:} for chapters
+    \item \texttt{alg:} for algorithms
+    \item \texttt{lst:} for code listings
+\end{itemize}
+
+\subsection{Best Practices}
+\begin{itemize}
+    \item Always use \texttt{\textbackslash label\{\}} immediately after the caption.
+    \item Reference using \texttt{\textbackslash ref\{\}}, \texttt{\textbackslash autoref\{\}}, or \texttt{\textbackslash cref\{\}}.
+    \item \textbf{Never hardcode numbers} (e.g., write "Figure 1" manually—always use references).
+    \item Place labels on the same line or immediately after captions.
+\end{itemize}
+
+\section{Figures and Images}
+
+\subsection{Adding Figures}
+Use the following structure to add figures:
+\begin{lstlisting}
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.8\textwidth]{images/my-diagram.png}
+    \caption{Description of the figure explaining what it shows}
+    \label{fig:my-diagram}
+\end{figure}
+\end{lstlisting}
+
+\subsection{Referencing Figures}
+Different ways to reference figures:
+\begin{lstlisting}
+% Basic reference
+As shown in Figure~\ref{fig:my-diagram}, the results indicate...
+
+% With autoref (requires \usepackage{hyperref})
+\autoref{fig:my-diagram} demonstrates the relationship between...
+
+% With cleveref (requires \usepackage{cleveref})
+\cref{fig:my-diagram} shows the data visualization...
+\end{lstlisting}
+
+\subsection{Figure Quality Guidelines}
+\begin{itemize}
+    \item \textbf{File formats:} Use PDF for vector graphics, PNG for screenshots; avoid JPEG for diagrams.
+    \item \textbf{Resolution:} Minimum 300 DPI for print, 150 DPI for digital.
+    \item \textbf{Sizing:} Use relative widths (e.g., \texttt{0.8\textbackslash textwidth}) rather than absolute measurements.
+    \item \textbf{Placement:} Use \texttt{[htbp]} options (here, top, bottom, page).
+    \item \textbf{Captions:} Should be descriptive and self-contained.
+\end{itemize}
+
+\section{Tables}
+
+\subsection{Creating Tables}
+Use the \texttt{booktabs} package for professional formatting:
+\begin{lstlisting}
+\begin{table}[htbp]
+    \centering
+    \caption{Performance comparison of different algorithms}
+    \label{tab:performance-comparison}
+    \begin{tabular}{lccr}
+        \toprule
+        Algorithm & Accuracy (\%) & Time (s) & Memory (MB) \\
+        \midrule
+        Method A & 85.2 & 12.4 & 256 \\
+        Method B & 92.1 & 18.7 & 312 \\
+        Method C & 88.9 & 9.2 & 198 \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+\end{lstlisting}
+
+\subsection{Referencing Tables}
+\begin{itemize}
+    \item The results presented in Table~\ref{tab:performance-comparison} show...
+    \item \autoref{tab:performance-comparison} contains the experimental data...
+\end{itemize}
+
+\subsection{Table Quality Guidelines}
+\begin{itemize}
+    \item \textbf{Packages:} Use \texttt{booktabs} for professional-looking tables.
+    \item \textbf{Alignment:} Left for text, center for short entries, right for numbers.
+    \item \textbf{Captions:} Place above the table (convention).
+    \item \textbf{Lines:} Use \texttt{\textbackslash toprule}, \texttt{\textbackslash midrule}, \texttt{\textbackslash bottomrule} instead of \texttt{\textbackslash hline}.
+    \item \textbf{Formatting:} Keep it simple and readable.
+\end{itemize}
+
+\section{Equations and Formulas}
+
+\subsection{Numbered Equations}
+Only number equations you intend to reference.
+\begin{lstlisting}
+The PageRank algorithm can be expressed as:
+\begin{equation}
+    PR(A) = (1-d) + d \sum_{i=1}^{N} \frac{PR(T_i)}{C(T_i)}
+    \label{eq:pagerank}
+\end{equation}
+\end{lstlisting}
+
+\subsection{Referencing Equations}
+\begin{itemize}
+    \item According to Equation~\ref{eq:pagerank}, the PageRank value...
+    \item Using \autoref{eq:pagerank}, we can calculate...
+\end{itemize}
+
+\subsection{Equation Guidelines}
+\begin{itemize}
+    \item \textbf{Numbering:} Only number equations you reference.
+    \item \textbf{Unnumbered:} Use \texttt{equation*} or \texttt{\textbackslash[ ... \textbackslash]} for display math without numbers.
+    \item \textbf{Inline:} Use \texttt{\$ ... \$} for inline mathematical expressions.
+    \item \textbf{Punctuation:} Treat equations as part of sentences with proper punctuation.
+\end{itemize}
+
+\section{Sections and Cross-References}
+
+\subsection{Section References}
+\begin{lstlisting}
+\section{Methodology}
+\label{sec:methodology}
+
+% Later in document
+As described in Section~\ref{sec:methodology}...
+The approach outlined in \autoref{sec:methodology} shows...
+\end{lstlisting}
+
+\subsection{Subsection References}
+\begin{lstlisting}
+\subsection{Data Collection}
+\label{sec:data-collection}
+
+% Reference
+The process detailed in \autoref{sec:data-collection} involves...
+\end{lstlisting}
+
+\section{Overleaf-Specific Guidelines}
+
+\subsection{File Organization}
+Recommended project structure:
+\begin{itemize}
+    \item \texttt{project/}
+    \begin{itemize}
+        \item \texttt{main.tex}
+        \item \texttt{references.bib}
+        \item \texttt{chapters/}
+        \begin{itemize}
+            \item \texttt{introduction.tex}
+            \item \texttt{methodology.tex}
+            \item \texttt{conclusion.tex}
+        \end{itemize}
+        \item \texttt{images/}
+        \begin{itemize}
+            \item \texttt{diagram1.pdf}
+            \item \texttt{chart2.png}
+            \item \texttt{screenshot3.png}
+        \end{itemize}
+    \end{itemize}
+\end{itemize}
+
+\subsection{Overleaf Settings}
+\begin{itemize}
+    \item \textbf{Compiler:} Use XeLaTeX for Unicode support.
+    \item \textbf{Main document:} Set correctly in project settings.
+    \item \textbf{Auto-compile:} Enable for real-time preview.
+    \item \textbf{Error handling:} Check logs for undefined references.
+\end{itemize}
+
+\section{Common Mistakes to Avoid}
+
+\begin{table}[htbp]
+    \centering
+    \caption{Bad vs. Good Referencing Practices}
+    \begin{tabular}{p{0.45\textwidth} p{0.45\textwidth}}
+        \toprule
+        \textbf{Don't Do This} & \textbf{Do This Instead} \\
+        \midrule
+        See Figure 1 for details... & See \autoref{fig:experimental-setup} for details... \\
+        Table 2 shows the results... & \cref{tab:performance-results} shows the results... \\
+        As mentioned in equation (3.1)... & As shown in \autoref{eq:optimization-function}... \\
+        \texttt{\textbackslash label\{fig1\}} & \texttt{\textbackslash label\{fig:experimental-setup\}} \\
+        \texttt{\textbackslash label\{table\}} & \texttt{\textbackslash label\{tab:performance-results\}} \\
+        Figure \texttt{\textbackslash ref\{fig:example\}} & Figure\textasciitilde\texttt{\textbackslash ref\{fig:example\}} (use non-breaking space) \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+\section{Quality Checklist}
+Before submitting your document, ensure:
+\begin{itemize}
+    \item[$\square$] All figures have descriptive captions and labels.
+    \item[$\square$] All tables use professional formatting (\texttt{booktabs}).
+    \item[$\square$] All equations referenced in text are numbered and labeled.
+    \item[$\square$] All citations appear in the bibliography.
+    \item[$\square$] No hardcoded reference numbers.
+    \item[$\square$] Consistent label naming convention used.
+    \item[$\square$] Non-breaking spaces used before references (\texttt{\textasciitilde}).
+    \item[$\square$] Document compiles without undefined reference warnings.
+    \item[$\square$] All images are high quality and properly sized.
+    \item[$\square$] Bibliography style is consistent and complete.
+\end{itemize}
+
+\end{document}
