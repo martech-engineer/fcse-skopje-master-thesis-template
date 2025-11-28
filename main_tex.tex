@@ -22,9 +22,6 @@
 \setlength{\cftsecnumwidth}{3em}
 \setlength{\cftsubsecnumwidth}{3.5em}
 
-%-------------------------------------------------------------------
-% REMOVE THE LINE OF DASHES HERE, or ensure it is a clean comment:
-
 % Mathematics
 \usepackage{amsmath}
 \usepackage{amsfonts}
@@ -234,12 +231,17 @@
         {\titlefont\large проф. д-р Име Презиме}
     \end{tabular}%
     }
+        % --- LOCATION AND YEAR ---
+    \vspace{1cm}
 
-    \vspace*{2cm} % Bottom padding
-    
+    {\titlefont\large Скопје, \the\year}
+
+    \vspace*{1.5cm} % Adjust bottom padding as needed
+
     \color{black}
-    \restoregeometry % Restore normal margins for the rest of the thesis
+    \restoregeometry
     \clearpage
+
 }
 \thesistype{Магистерски труд}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
